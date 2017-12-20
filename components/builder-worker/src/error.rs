@@ -44,6 +44,7 @@ pub enum Error {
     CannotAddCreds,
     Chown(PathBuf, u32, u32, io::Error),
     ChownWait(io::Error),
+    DirectoryCreation(PathBuf, io::Error),
     Exporter(io::Error),
     Git(git2::Error),
     GithubAppAuthErr(github_api_client::HubError),
@@ -103,6 +104,9 @@ impl fmt::Display for Error {
                 )
             }
             Error::ChownWait(ref e) => format!("Unable to complete chown process, {}", e),
+            Error::DirectoryCreation(ref p, ref e) => {
+                format!("Unable create directory, {}, {}", p.display(), e)
+            }
             Error::Exporter(ref e) => {
                 format!("Unable to spawn or pipe data from exporter proc, {}", e)
             }
@@ -168,6 +172,7 @@ impl error::Error for Error {
             Error::CannotAddCreds => "Cannot add credentials to url",
             Error::Chown(_, _, _, _) => "Unable to recursively chown path",
             Error::ChownWait(_) => "Unable to complete chown process",
+            Error::DirectoryCreation(_, _) => "Unable to create directory",
             Error::Exporter(_) => "IO Error while spawning or piping data from exporter proc",
             Error::Git(ref err) => err.description(),
             Error::GithubAppAuthErr(ref err) => err.description(),
