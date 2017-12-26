@@ -99,7 +99,12 @@ fi
 
 # This will produce a URI that looks like
 # postgresql://hab@127.0.0.1:39605/test
-pg_url=$(sudo su hab -c "pg_tmp -t -w 240 -o \"-c max_locks_per_transaction=128\"")
+if [ $(id -u hab) ]; then
+  pg_url=$(sudo su hab -c "pg_tmp -t -w 240 -o \"-c max_locks_per_transaction=128\"")
+else
+  pg_url=$(sudo pg_tmp -t -w 240 -o "-c max_locks_per_transaction=128")
+fi
+
 port=$(echo "$pg_url" | awk -F ":" '{ print $3 }' | awk -F "/" '{ print $1 }')
 
 # Write out some config files
