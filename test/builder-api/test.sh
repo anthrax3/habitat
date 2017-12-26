@@ -193,10 +193,16 @@ EOF
 
 # Start all the services up
 if [ "$platform" = "mac" ]; then
+  echo "Running these tests on a mac"
   env HAB_FUNC_TEST=1 "$base_dir/support/mac/bin/forego" start -f "$dir/Procfile" -e "$dir/bldr.env" > "$dir/services.log" 2>&1 &
 else
-  env HAB_FUNC_TEST=1 "$base_dir/support/linux/bin/forego" start -f "$dir/Procfile" -e "$dir/bldr.env" > "$dir/services.log" 2>&1 &
+  echo "Running these tests on linux"
+  # env HAB_FUNC_TEST=1 "$base_dir/support/linux/bin/forego" start -f "$dir/Procfile" -e "$dir/bldr.env" > "$dir/services.log" 2>&1 &
+  env HAB_FUNC_TEST=1 "$base_dir/support/linux/bin/forego" start -f "$dir/Procfile" -e "$dir/bldr.env"
 fi
+
+echo "aborting early"
+exit 1
 
 forego_pid=$!
 
