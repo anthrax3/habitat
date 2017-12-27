@@ -8,10 +8,10 @@ prefix=$HOME/pkgs/libarchive/$version
 echo "LIBARCHIVE PREFIX = ${prefix}"
 
 # If installed, exit early!
-# if [ -d "$prefix" ]; then
-#   echo "--> Detected $nv installed under $prefix, skipping compile"
-#   exit 0
-# fi
+if [ -d "$prefix" ]; then
+  echo "--> Detected $nv installed under $prefix, skipping compile"
+  exit 0
+fi
 
 source $(dirname $0)/rust_env.sh
 
