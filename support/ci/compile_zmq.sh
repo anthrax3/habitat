@@ -7,10 +7,10 @@ source=http://download.zeromq.org/zeromq-$version.tar.gz
 prefix=$HOME/pkgs/zeromq/$version
 
 # If installed, exit early!
-if [ -d "$prefix" ]; then
-  echo "--> Detected $nv installed under $prefix, skipping compile"
-  exit 0
-fi
+# if [ -d "$prefix" ]; then
+#   echo "--> Detected $nv installed under $prefix, skipping compile"
+#   exit 0
+# fi
 
 source $(dirname $0)/rust_env.sh
 
