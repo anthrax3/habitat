@@ -21,6 +21,13 @@ pg_tmp_version=2.3
 export BLDR_FULL_TEST_RUN=1
 unset npm_config_prefix
 
+# If this script is being run by Travis, then we need to point cargo to the libs we installed ourselves.
+# Failure to do this means that the bldr-* components won't be able to find the shared libraries they need.
+if [ -n "$TRAVIS" ]; then
+  rp=$(find "$HOME/pkgs" -name "lib" -type d | paste -sd ":" -)
+  export LD_RUN_PATH="$LD_RUN_PATH:$rp"
+fi
+
 if ! exists curl; then
   echo "curl is required to run the integration tests. Please ensure it's installed and try again."
   exit 1
